@@ -23,12 +23,23 @@ function App() {
         {
           !user &&
           <>
-            <Signup />
-            <Login />
+            <Router>
+            
+              <Switch>
+                <Route path="/" exact component={Login} />
+                <Route path="/signup" component={Signup} />
+                <Route path="*" component={NotFound} />
+              </Switch>
+
+            </Router>
           </>
         }
       </div>
   );
+}
+
+function NotFound() {
+  return <p>Oh no! Doggo could not find the Page! Sad woof.</p>;
 }
 
 export default App;

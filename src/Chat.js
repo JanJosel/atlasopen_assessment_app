@@ -7,10 +7,9 @@ import 'firebase/auth'
 
 //HINT
 import { BrowserRouter as Router, Switch, Route, Link, useParams, useHistory } from 'react-router-dom';
+import {TextField, Button, Grid, Typography, Paper, Box, Divider, List, ListItem, ListItemIcon, ListItemText, Avatar, Fab} from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import SendIcon from '@material-ui/icons/Send';
-import {TextField, Button, Grid, Typography, Paper, Box, Divider, List, ListItem, ListItemIcon, ListItemText, Avatar, Fab} from "@material-ui/core";
-
 
 const Chat = () => {
 
@@ -40,24 +39,22 @@ const Chat = () => {
     const messages = useFirestoreCollectionData(messageCollection.orderBy("timestamp"));
 
     const StoreMessage = async(e) => {
-        var dateNow = Date(Date.now()); 
-        var date = dateNow.toString()
 
-        //console.log(message)
-        
-        // construct message
-        const sendMessage = { uid: user.uid, name: user.displayName, message: message.text, timestamp: date }
-        // add message to collection
-        messageCollection.add(sendMessage)
+        if(message.text.trim() != '') {
+            // construct message
+            const sendMessage = { uid: user.uid, name: user.displayName, message: message.text, timestamp: Date.now() }
+            // add message to collection
+            messageCollection.add(sendMessage)
+
+            // add latest message to message list
+            messages.push(sendMessage)
+        }
+
         // clear text field
         document.getElementById('messageField').value = ''
+        // clear message text
+        setMessage({text: ''})
         
-        // add latest message to message list
-        messages.push(sendMessage)
-
-        // print messages
-        //console.log(messages)
-
     }
 
     // 
@@ -66,7 +63,7 @@ const Chat = () => {
             <Grid container>
                 <ListItemText align={user.uid==msg.uid ? "right" : "left"}>
                     <ListItemIcon>
-                        <Avatar alt="Remy Sharp" src="https://material-ui.com/static/images/avatar/1.jpg" />
+                        <Avatar alt="Remy Sharp" src="https://material-ui.com/static/images/avatar/1.jpg" style={{marginRight: '10px'}}/>
                         <ListItemText primary={msg.name}></ListItemText>
                     </ListItemIcon>
                     
@@ -76,7 +73,7 @@ const Chat = () => {
                     <ListItemText align={user.uid==msg.uid ? "right" : "left"} primary={msg.message}></ListItemText>
                 </Grid>
                 <Grid item xs={12}>
-                    <ListItemText align={user.uid==msg.uid ? "right" : "left"} secondary={msg.timestamp}></ListItemText>
+                    <ListItemText align={user.uid==msg.uid ? "right" : "left"} secondary={new Date(msg.timestamp).toString()}></ListItemText>
                 </Grid>
             </Grid>
         </ListItem>
