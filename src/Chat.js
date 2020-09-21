@@ -40,9 +40,11 @@ const Chat = () => {
 
     const StoreMessage = async(e) => {
 
+        console.log(user.photoURL)
+
         if(message.text.trim() != '') {
             // construct message
-            const sendMessage = { uid: user.uid, name: user.displayName, message: message.text, timestamp: Date.now() }
+            const sendMessage = { uid: user.uid, name: user.displayName, avatar: user.photoURL, message: message.text, timestamp: Date.now() }
             // add message to collection
             messageCollection.add(sendMessage)
 
@@ -63,7 +65,7 @@ const Chat = () => {
             <Grid container>
                 <ListItemText align={user.uid==msg.uid ? "right" : "left"}>
                     <ListItemIcon>
-                        <Avatar alt="Remy Sharp" src="https://material-ui.com/static/images/avatar/1.jpg" style={{marginRight: '10px'}}/>
+                        <Avatar alt="dog avatar" src={msg.avatar} style={{marginRight: '10px'}}/>
                         <ListItemText primary={msg.name}></ListItemText>
                     </ListItemIcon>
                     
@@ -100,7 +102,17 @@ const Chat = () => {
 
     return (
         <div>
-            <h1>Chat Page</h1>
+            <h1></h1>
+
+            <Grid container style={{padding: '20px'}}>
+                <Grid item xs={11}>
+                <ListItemText primary={<Typography variant="h4" style={{ color: '#f50057' }}>Chat Page</Typography>} align="left"></ListItemText>
+                </Grid>
+                
+                <Logout />
+
+            </Grid>
+
 
             <Grid container component={Paper} className={classes.chatSection}>
                 
@@ -130,7 +142,6 @@ const Chat = () => {
                 
             </Grid>
 
-            <Logout />
         </div>
     )
 

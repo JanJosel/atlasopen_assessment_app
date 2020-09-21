@@ -1,7 +1,8 @@
 import React from 'react';
 import { useFirebaseApp } from 'reactfire';
 import 'firebase/auth'
-import {Button, Grid } from "@material-ui/core";
+import {Grid, Fab } from "@material-ui/core";
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 const Logout = () => {
     // Import firebase
@@ -14,10 +15,9 @@ const Logout = () => {
 
     return (
         <>
-            <Grid container style={{padding: '10px'}}></Grid>
-            <Button variant="contained" color="default" onClick={handleClick} style={{width: '60%'}}>
-                Log Out
-            </Button>
+            <Grid item xs={1} align="right">
+                <Fab color="secondary" aria-label="add" onClick={handleClick}><ExitToAppIcon /></Fab>
+            </Grid>
         </>
     )
 };

@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useFirebaseApp } from 'reactfire';
+import { useHistory } from "react-router-dom";
 
 import {TextField, Button, Grid, Typography, Box, Avatar, CssBaseline, Link, Container, Divider} from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import PetsIcon from '@material-ui/icons/Pets';
+
 
 const Signup = () => {
     // User State
@@ -22,12 +24,32 @@ const Signup = () => {
             error: '',
         })
     };
+    
+    // Dog avatar state
+    const [dogAvatar, setDogAvatar] = useState({
+        url: '',
+    });
+
+    // Fetch url
+    function fetchDogAvatar() {
+    fetch("https://random.dog/woof.json")
+        .then(response => response.json())
+        .then(json => setDogAvatar({url: json.url}));
+    }
+
+    useEffect(() => {
+        fetchDogAvatar();
+    }, []);
+
 
     // Import firebase
     const firebase = useFirebaseApp();
 
+    const history = useHistory();
+
     // Submit function (Create account)
     const handleSubmit = async(e) => {
+        console.log(dogAvatar.url)
         e.preventDefault();
         // Sign up code here.
         await firebase.auth().createUserWithEmailAndPassword(user.email, user.password)
@@ -35,12 +57,13 @@ const Signup = () => {
                 // Update the nickname
                 result.user.updateProfile({
                     displayName: user.nickname,
+                    photoURL: dogAvatar.url
                 })
 
                 const myURL = { url: 'http://localhost:3000/' }
 
                 // Send Email Verification and redirect to my website.
-                result.user.sendEmailVerification(myURL)
+                result.user.sendEmailVerification()
                     .then(() => {
                         setUser({
                             ...user,
@@ -56,6 +79,8 @@ const Signup = () => {
 
                 // Sign Out the user.
                 firebase.auth().signOut();
+                // Redirect to login page
+                history.push("/");
             }).catch(error => {
                 // Update the error
                 setUser({
@@ -70,14 +95,14 @@ const Signup = () => {
         return (
           <Typography variant="body2" color="textSecondary" align="center">
             {'Copyright © '}
-            <Link color="inherit" href="https://material-ui.com/">
+            <Link color="inherit" href="/">
               Your Website
             </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
           </Typography>
         );
-      }
+    }
       
     const useStyles = makeStyles((theme) => ({
     paper: {
@@ -96,6 +121,10 @@ const Signup = () => {
     },
     submit: {
         margin: theme.spacing(3, 0, 2),
+    },
+    large: {
+        width: theme.spacing(7),
+        height: theme.spacing(7),
     },
     }));
 
@@ -153,9 +182,24 @@ const Signup = () => {
                             onChange={handleChange}
                         />
                         </Grid>
-                        <Grid item xs={12}>
+                        
+                        <Grid item xs={12} style={{ justifyContent: "center", display: "flex" }}>
+                            <Avatar alt="dog avatar" className={classes.large} src={dogAvatar.url}/>
                         </Grid>
+                        <Grid item xs={12}>
+                            <Button
+                                variant="contained"
+                                color="default"
+                                onClick={fetchDogAvatar}
+                                >
+                                    Change Avatar
+                            </Button>
+                        </Grid>
+
                     </Grid>
+
+                    <Divider/>
+
                     <Button
                         type="submit"
                         fullWidth
@@ -165,6 +209,7 @@ const Signup = () => {
                     >
                         Sign Up
                     </Button>
+                    
                     <Grid container justify="flex-end">
                         <Grid item>
                         <Link href="/" variant="body2">
@@ -178,6 +223,7 @@ const Signup = () => {
                 <Box mt={5}>
                     <Copyright />
                 </Box>
+
             </Container>
         </>
     )

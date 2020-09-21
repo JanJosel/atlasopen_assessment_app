@@ -14,6 +14,7 @@ function App() {
       <div className="App">
         {
           user &&
+            user.emailVerified &&
               <>
               <Router>
                   <Chat/>
