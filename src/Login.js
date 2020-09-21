@@ -1,9 +1,10 @@
-import React, { useState, Component } from 'react';
+import React, { useState } from 'react';
 import { useFirebaseApp, } from 'reactfire';
+import { useHistory, Link } from "react-router-dom";
 import 'firebase/auth'
 import './Signup.css';
 
-import {TextField, Button, Grid, Typography, Box, Avatar, CssBaseline, Link, Container, Divider} from "@material-ui/core";
+import {TextField, Button, Grid, Typography, Box, Avatar, CssBaseline, Container, Divider} from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import PetsIcon from '@material-ui/icons/Pets';
 
@@ -13,7 +14,7 @@ function Copyright() {
     return (
       <Typography variant="body2" color="textSecondary" align="center">
         {'Copyright © '}
-        <Link color="inherit" href="/">
+        <Link color="inherit" to="/">
           Your Website
         </Link>{' '}
         {new Date().getFullYear()}
@@ -64,6 +65,8 @@ const Login = () => {
 
     // Import firebase
     const firebase = useFirebaseApp();
+
+    const history = useHistory();
 
     const handleSubmit = async(e) => {
         e.preventDefault();
@@ -142,7 +145,7 @@ const Login = () => {
                     
                     <Divider />
                     <Grid container style={{padding: '10px'}}></Grid>
-                    <Button variant="contained" color="default" href="/signup" style={{width: '60%'}}>
+                    <Button variant="contained" color="default" onClick={() => history.push('/signup')} style={{width: '60%'}}>
                         Sign up, woof!
                     </Button>
 

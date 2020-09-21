@@ -5,9 +5,7 @@ import { useUser, useFirestoreCollectionData, useFirestore } from 'reactfire';
 import Logout from './Logout';
 import 'firebase/auth'
 
-//HINT
-import { BrowserRouter as Router, Switch, Route, Link, useParams, useHistory } from 'react-router-dom';
-import {TextField, Button, Grid, Typography, Paper, Box, Divider, List, ListItem, ListItemIcon, ListItemText, Avatar, Fab} from "@material-ui/core";
+import {TextField, Grid, Typography, Paper, Box, Divider, List, ListItem, ListItemIcon, ListItemText, Avatar, Fab} from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import SendIcon from '@material-ui/icons/Send';
 

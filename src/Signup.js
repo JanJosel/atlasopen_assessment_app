@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useFirebaseApp } from 'reactfire';
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 
-import {TextField, Button, Grid, Typography, Box, Avatar, CssBaseline, Link, Container, Divider} from "@material-ui/core";
+import {TextField, Button, Grid, Typography, Box, Avatar, CssBaseline, Container, Divider} from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import PetsIcon from '@material-ui/icons/Pets';
 
@@ -95,7 +95,7 @@ const Signup = () => {
         return (
           <Typography variant="body2" color="textSecondary" align="center">
             {'Copyright © '}
-            <Link color="inherit" href="/">
+            <Link color="inherit" to="/">
               Your Website
             </Link>{' '}
             {new Date().getFullYear()}
@@ -197,8 +197,11 @@ const Signup = () => {
                         </Grid>
 
                     </Grid>
-
+                    
+                    <Grid container style={{padding: '10px'}}></Grid>
+                    
                     <Divider/>
+                    
 
                     <Button
                         type="submit"
@@ -212,7 +215,7 @@ const Signup = () => {
                     
                     <Grid container justify="flex-end">
                         <Grid item>
-                        <Link href="/" variant="body2">
+                        <Link to="/" variant="body2">
                             Already have an account? Log in
                         </Link>
                         </Grid>
