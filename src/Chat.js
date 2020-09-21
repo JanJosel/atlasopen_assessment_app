@@ -38,8 +38,6 @@ const Chat = () => {
 
     const StoreMessage = async(e) => {
 
-        console.log(user.photoURL)
-
         if(message.text.trim() != '') {
             // construct message
             const sendMessage = { uid: user.uid, name: user.displayName, avatar: user.photoURL, message: message.text, timestamp: Date.now() }

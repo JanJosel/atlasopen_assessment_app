@@ -49,7 +49,7 @@ const Signup = () => {
 
     // Submit function (Create account)
     const handleSubmit = async(e) => {
-        console.log(dogAvatar.url)
+        
         e.preventDefault();
         // Sign up code here.
         await firebase.auth().createUserWithEmailAndPassword(user.email, user.password)
@@ -199,7 +199,7 @@ const Signup = () => {
                     </Grid>
                     
                     <Grid container style={{padding: '10px'}}></Grid>
-                    
+
                     <Divider/>
                     
 
