@@ -31,10 +31,17 @@ const Chat = () => {
 
     // get user
     const user = useUser();
+    
+    // get user collection
+    const userCollection = useFirestore().collection('users');
+    // get user list info
+    const users = useFirestoreCollectionData(userCollection);
+    
     // get message collection
     const messageCollection = useFirestore().collection('messages');
     // get message list from firestore
     const messages = useFirestoreCollectionData(messageCollection.orderBy("timestamp"));
+
 
     const StoreMessage = async(e) => {
 
@@ -77,6 +84,18 @@ const Chat = () => {
         </ListItem>
     );
 
+    //
+    const userStats = (
+        <Grid item xs={1} align="left">
+            <ListItemText primary={users.length} secondary="users"></ListItemText>
+        </Grid>
+    );
+    const messageStats = (
+        <Grid item xs={1} align="left">
+            <ListItemText primary={messages.length} secondary="messages"></ListItemText>
+        </Grid>
+    );
+
     const useStyles = makeStyles({
         chatSection: {
           width: '100%',
@@ -96,15 +115,17 @@ const Chat = () => {
         divRef.current.scrollIntoView({ behavior: 'smooth' });
     });
 
+
     return (
         <div>
             <h1></h1>
 
             <Grid container style={{padding: '20px'}}>
-                <Grid item xs={11}>
+                <Grid item xs={2}>
                 <ListItemText primary={<Typography variant="h4" style={{ color: '#f50057' }}>Chat Page</Typography>} align="left"></ListItemText>
                 </Grid>
-                
+                {userStats }
+                {messageStats}
                 <Logout />
 
             </Grid>

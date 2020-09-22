@@ -15,8 +15,8 @@ const Logout = () => {
 
     return (
         <>
-            <Grid item xs={1} align="right">
-                <Fab color="secondary" aria-label="add" onClick={handleClick}><ExitToAppIcon /></Fab>
+            <Grid item xs={8} align="right">
+                <Fab color="secondary" aria-label="exit" onClick={handleClick}><ExitToAppIcon /></Fab>
             </Grid>
         </>
     )

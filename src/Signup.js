@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useFirebaseApp } from 'reactfire';
+import { useFirebaseApp, useFirestoreCollectionData, useFirestore } from 'reactfire';
 import { useHistory, Link } from "react-router-dom";
 
 import {TextField, Button, Grid, Typography, Box, Avatar, CssBaseline, Container, Divider} from "@material-ui/core";
@@ -44,6 +44,8 @@ const Signup = () => {
 
     // Import firebase
     const firebase = useFirebaseApp();
+    // get user collection
+    const userCollection = useFirestore().collection('users');
 
     const history = useHistory();
 
@@ -58,9 +60,14 @@ const Signup = () => {
                 result.user.updateProfile({
                     displayName: user.nickname,
                     photoURL: dogAvatar.url
+                }).then(function() {
+                    // Update successful, now add user collection
+                    const user = JSON.parse( JSON.stringify(result.user)) 
+                    // construct user info
+                    const userInfo = { uid: user.uid, name: user.displayName }
+                    // add user info to collection
+                    userCollection.add(userInfo)
                 })
-
-                const myURL = { url: 'http://localhost:3000/' }
 
                 // Send Email Verification and redirect to my website.
                 result.user.sendEmailVerification()
